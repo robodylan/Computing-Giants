@@ -1,0 +1,12 @@
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\bin\Debug\DAPIG.exe.config
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\obj\Debug\DAPIG.exe
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\obj\Debug\DAPIG.pdb
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\obj\Debug\DAPIG.csprojResolveAssemblyReference.cache
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\bin\Debug\DAPIG.exe
+C:\Users\Dylan\Documents\GitHub\DAPIG\DAPIG\bin\Debug\DAPIG.pdb
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\bin\Debug\DAPIG.exe.config
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\DAPIG.exe
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\DAPIG.pdb
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\bin\Debug\DAPIG.exe
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\bin\Debug\DAPIG.pdb
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\DAPIG.csprojResolveAssemblyReference.cache

@@ -63,7 +63,7 @@ namespace Computing_Giants
             while (client.Connected)
             {
                 byte[] buffer = new byte[1024];
-                Thread.Sleep(1000 / 60);
+                Thread.Sleep(1000 / 10);
                 if (stream.DataAvailable)
                 {
                     stream.Read(buffer, 0, 1024);
@@ -77,7 +77,7 @@ namespace Computing_Giants
                             string playerData = "";
                             foreach (Entity entity in entities)
                             {
-                                lock (entities) playerData = playerData + entity.username + "," + entity.x + "," + entity.y + "," + entity.direction + "," + "\r\n";
+                                lock (entities) playerData = playerData + entity.username + "," + entity.level + "," + entity.publicKey + "\r\n";
                             }
                             buffer = Encoding.ASCII.GetBytes(playerData);
                             stream.Write(buffer, 0, playerData.Length);
@@ -96,7 +96,26 @@ namespace Computing_Giants
 
                             }
                             break;
-                        case "guessKey:": //guessKey:<key>:<opponents key>
+                        case "attackPlayer": //attackPlayer:<key>:<opponents_key>
+                            try
+                            {
+                                if (thisEntity.privateKey == input.Split(':')[1])
+                                {
+                                    foreach(Entity enemy in entities)
+                                    {
+                                        if(enemy.publicKey == input.Split(':')[2])
+                                        {
+                                            thisEntity.attackingKey = input.Split(':')[2];
+                                        }
+                                    }
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            break;
+                        case "guessKey": //guessKey:<key>:<opponents_key>
                             foreach (Entity entity in entities)
                             {
                                 try
@@ -105,13 +124,10 @@ namespace Computing_Giants
                                     {
                                         foreach(Entity enemy in entities)
                                         {
-                                            if(enemy.publicKey == input.Split(':')[2])
+                                            if(enemy.publicKey == input.Split(':')[2] && enemy.secretKey == input.Split(':')[3])
                                             {
-                                                if(enemy.secretKey == input.Split(':')[3])
-                                                {
-                                                    enemy.level--;
-                                                    thisEntity.level++;
-                                                }
+                                                enemy.level--;
+                                                thisEntity.level++;
                                             }
                                         }
                                     }
@@ -122,7 +138,7 @@ namespace Computing_Giants
                                 }
                             }
                             break;
-                        case "getOpponentsMD5:": //getOpponentsMD5:<key>
+                        case "getOpponentsMD5": //getOpponentsMD5:<key>
                             foreach (Entity entity in entities)
                             {
                                 try
@@ -136,7 +152,7 @@ namespace Computing_Giants
                                                 string output;
                                                 output = Utils.GetMD5(enemy.secretKey);
                                                 buffer = Encoding.ASCII.GetBytes(output);
-                                                stream.Write(buffer, 0, playerData.Length);
+                                                stream.Write(buffer, 0, output.Length);
                                             }
                                         }
                                         break;

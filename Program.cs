@@ -56,7 +56,8 @@ namespace Computing_Giants
             TcpClient client = (TcpClient)data;
             NetworkStream stream = client.GetStream();
             string ID = genID();
-            lock(entities) entities.Add(new Entity(ID, "NOT_SET"));
+            Entity thisEntity = new Entity(ID, "NOT_SPECIFIED"); 
+            lock(entities) entities.Add(thisEntity);
             byte[] bufferTMP = Encoding.ASCII.GetBytes("ID:" + ID.ToString() + "\r\n");
             stream.Write(bufferTMP, 0, bufferTMP.Length);
             while (client.Connected)
@@ -82,14 +83,37 @@ namespace Computing_Giants
                             stream.Write(buffer, 0, playerData.Length);
                             break;
                         case "setUsername":
+                            try
+                            {
+                                if (thisEntity.privateKey == input.Split(':')[1])
+                                {
+                                    thisEntity.username = input.Split(':')[2];
+                                    break;
+                                }
+                            }
+                            catch
+                            {
+
+                            }
+                            break;
+                        case "guessKey:": //guessKey:<key>:<opponents key>
                             foreach (Entity entity in entities)
                             {
                                 try
                                 {
-                                    if (entity.key == input.Split(':')[1])
+                                    if (entity.privateKey == input.Split(':')[1])
                                     {
-                                        entity.username = input.Split(':')[2];
-                                        break;
+                                        foreach(Entity enemy in entities)
+                                        {
+                                            if(enemy.publicKey == input.Split(':')[2])
+                                            {
+                                                if(enemy.secretKey == input.Split(':')[3])
+                                                {
+                                                    enemy.level--;
+                                                    thisEntity.level++;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 catch
@@ -98,14 +122,23 @@ namespace Computing_Giants
                                 }
                             }
                             break;
-                        case "Blank":
+                        case "getOpponentsMD5:": //getOpponentsMD5:<key>
                             foreach (Entity entity in entities)
                             {
                                 try
                                 {
-                                    if (entity.key == input.Split(':')[1])
+                                    if (entity.privateKey == input.Split(':')[1])
                                     {
-                                        //Code here
+                                        foreach(Entity enemy  in entities)
+                                        {
+                                            if(enemy.publicKey == entity.attackingKey)
+                                            {
+                                                string output;
+                                                output = Utils.GetMD5(enemy.secretKey);
+                                                buffer = Encoding.ASCII.GetBytes(output);
+                                                stream.Write(buffer, 0, playerData.Length);
+                                            }
+                                        }
                                         break;
                                     }
                                 }

@@ -1,0 +1,3 @@
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\Computing Giants.csprojResolveAssemblyReference.cache
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\DAPIG.exe
+C:\Users\Dylan\Documents\GitHub\Computing-Giants\obj\Debug\DAPIG.pdb

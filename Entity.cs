@@ -3,14 +3,15 @@
     class Entity
     {
         public bool isMoving = false;
-        public string key;
-        public string secretHash;
-        public string level;
+        public string privateKey;
+        public string publicKey;
+        public string secretKey;
+        public int level;
         public string username;
-        public int attackingKey;
+        public string attackingKey;
         public Entity(string key, string username)
         {
-            this.key = key;
+            this.privateKey = key;
             this.username = username;
         }
     }

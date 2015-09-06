@@ -56,7 +56,8 @@ namespace Computing_Giants
             TcpClient client = (TcpClient)data;
             NetworkStream stream = client.GetStream();
             string ID = genID();
-            Entity thisEntity = new Entity(ID, "NOT_SPECIFIED"); 
+            string pubID = genID();
+            Entity thisEntity = new Entity(ID, "NOT_SPECIFIED", pubID); 
             lock(entities) entities.Add(thisEntity);
             byte[] bufferTMP = Encoding.ASCII.GetBytes("ID:" + ID.ToString() + "\r\n");
             stream.Write(bufferTMP, 0, bufferTMP.Length);

@@ -37,6 +37,7 @@ namespace Computing_Giants
             return output.ToString();
         }
 
+
         public static string stripEnding(string input)
         {
             string output;
@@ -116,7 +117,7 @@ namespace Computing_Giants
 
                             }
                             break;
-                        case "guessKey": //guessKey:<key>:<opponents_key>
+                        case "guessKey": //guessKey:<key>:<guess>
                             foreach (Entity entity in entities)
                             {
                                 try

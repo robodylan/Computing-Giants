@@ -98,7 +98,7 @@ namespace Computing_Giants
 
                             }
                             break;
-                        case "attackPlayer": //attackPlayer:<key>:<opponents_key>
+                        case "attackPlayer": 
                             try
                             {
                                 if (thisEntity.privateKey == input.Split(':')[1])
@@ -117,7 +117,7 @@ namespace Computing_Giants
 
                             }
                             break;
-                        case "guessKey": //guessKey:<key>:<guess>
+                        case "guessKey": 
                             foreach (Entity entity in entities)
                             {
                                 try
@@ -126,7 +126,7 @@ namespace Computing_Giants
                                     {
                                         foreach(Entity enemy in entities)
                                         {
-                                            if(enemy.publicKey == input.Split(':')[2] && enemy.secretKey == input.Split(':')[3])
+                                            if(enemy.publicKey == input.Split(':')[2] && enemy.secretKey == input.Split(':')[3] && enemy.level > 1)
                                             {
                                                 enemy.level--;
                                                 thisEntity.level++;
@@ -140,7 +140,7 @@ namespace Computing_Giants
                                 }
                             }
                             break;
-                        case "getOpponentsMD5": //getOpponentsMD5:<key>
+                        case "getOpponentsMD5":
                             foreach (Entity entity in entities)
                             {
                                 try

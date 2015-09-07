@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Computing Giants", "Computing Giants.csproj", "{BA81A7C8-BEFF-4C11-9635-C293EAD59822}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CGSC", "..\CGSC\CGSC.csproj", "{A8C387FD-A9D0-4811-9112-075640923E75}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +21,6 @@ Global
 		{BA81A7C8-BEFF-4C11-9635-C293EAD59822}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA81A7C8-BEFF-4C11-9635-C293EAD59822}.Release|x86.ActiveCfg = Release|Any CPU
 		{BA81A7C8-BEFF-4C11-9635-C293EAD59822}.Release|x86.Build.0 = Release|Any CPU
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Debug|x86.ActiveCfg = Debug|x86
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Debug|x86.Build.0 = Debug|x86
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Release|Any CPU.ActiveCfg = Release|x86
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Release|x86.ActiveCfg = Release|x86
-		{A8C387FD-A9D0-4811-9112-075640923E75}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

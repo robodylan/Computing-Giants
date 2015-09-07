@@ -10,29 +10,31 @@ namespace CLCGC
 {
     class Program
     {
+        static TcpClient client = new TcpClient();
+        static NetworkStream stream = client.GetStream();
+
         public static void Main()
         {
-            Console.Clear();
             bool notValid = true;
             while (notValid)
             {
-                TcpClient client;
-            NetworkStream stream;
-            Console.WriteLine("        (                          " + "\n" +
-                              "   (    )\\ )   (    (         (    " + "\n" +
-                              "   )\\  (()/(   )\\   )\\ )      )\\   " + "\n" +
-                              " (((_)  /(_))(((_) (()/(    (((_)  " + "\n" +
-                              " )\\___ (_))  )\\___  /(_))_  )\\___  " + "\n" +
-                              "((/ __|| |  ((/ __|(_)) __|((/ __| " + "\n" +
-                              " | (__ | |__ | (__   | (_ | | (__  " + "\n" +
-                              "  \\___||____| \\___|   \\___|  \\___| " + "\n" +
-                              "                                   " + "\n" );
-            Console.WriteLine("CLCGC (c) 2015 Dylan Dunn");
+                Console.Clear();
+                Console.WriteLine("        (                          " + "\n" +
+                                  "   (    )\\ )   (    (         (    " + "\n" +
+                                  "   )\\  (()/(   )\\   )\\ )      )\\   " + "\n" +
+                                  " (((_)  /(_))(((_) (()/(    (((_)  " + "\n" +
+                                  " )\\___ (_))  )\\___  /(_))_  )\\___  " + "\n" +
+                                  "((/ __|| |  ((/ __|(_)) __|((/ __| " + "\n" +
+                                  " | (__ | |__ | (__   | (_ | | (__  " + "\n" +
+                                  "  \\___||____| \\___|   \\___|  \\___| " + "\n" +
+                                  "                                   " + "\n" );
+                Console.WriteLine("CLCGC (c) 2015 Dylan Dunn");
                 try
                 {
                     Console.Write("Enter a server address: ");
                     string input = Console.ReadLine();
                     client = new TcpClient(input, 74);
+                    notValid = false;
                 }
                 catch
                 {
@@ -40,6 +42,27 @@ namespace CLCGC
                     Console.Read();
                 }
             }
+
+            while(client.Connected)
+            {
+
+            }
+        }
+
+        public void Send(string input)
+        {
+            byte[] buffer = new byte[input.Length];
+            buffer = Encoding.ASCII.GetBytes(input);
+            stream.Write(buffer, 0, input.Length);
+        }
+
+        public string Receive()
+        {
+            byte[] buffer = new byte[1024];
+            string output = "";
+            stream.Read(buffer, 0, buffer.Length);
+            output = Encoding.ASCII.GetString(buffer);
+            return output;
         }
     }
 }

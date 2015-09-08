@@ -1,6 +1,3 @@
-C:\Users\Dylan\Documents\Visual Studio 2015\Projects\CLCGC\bin\Debug\CLCGC.exe.config
-C:\Users\Dylan\Documents\Visual Studio 2015\Projects\CLCGC\obj\Debug\CLCGC.exe
-C:\Users\Dylan\Documents\Visual Studio 2015\Projects\CLCGC\obj\Debug\CLCGC.pdb
 C:\Users\Dylan\Documents\GitHub\Computing-Giants\CLCGC\bin\Debug\CLCGC.exe.config
 C:\Users\Dylan\Documents\GitHub\Computing-Giants\CLCGC\obj\Debug\CLCGC.exe
 C:\Users\Dylan\Documents\GitHub\Computing-Giants\CLCGC\obj\Debug\CLCGC.pdb

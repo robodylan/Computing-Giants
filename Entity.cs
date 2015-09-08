@@ -17,6 +17,7 @@
             this.publicKey = public_key;
             this.level = 1;
             this.secretKey = keyCharacters[Program.rand.Next(1, keyCharacters.Length)].ToString();
+            this.secretKey = "a";
         }
     }
 }

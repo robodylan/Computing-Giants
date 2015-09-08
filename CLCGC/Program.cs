@@ -13,6 +13,7 @@ namespace CLCGC
 {
     class Program
     {
+        static Random random = new Random();
         static TcpClient client;
         static NetworkStream stream;
         static string private_key;
@@ -22,6 +23,7 @@ namespace CLCGC
         static bool success = false;
         static int playerLevel;
         static int enemyLevel;
+        static int guess;
 
         public static void Main()
         {
@@ -73,7 +75,10 @@ namespace CLCGC
                 Thread.Sleep(100); 
             }
             Thread.Sleep(100);
+            string output = "setUsername:" + private_key.Substring(0, private_key.Length - 2) + ":robodylan";
+            Send(output);
             attackRandomPlayer();
+            wait = false;
             while(true)
             {
                 if(!success)
@@ -82,6 +87,8 @@ namespace CLCGC
                 }
                 else
                 {
+                    Send("guessKey:" + private_key + ":" + guess);
+                    Console.WriteLine("Player decimated");
                     attackRandomPlayer();
                     success = false;
                 }
@@ -98,43 +105,64 @@ namespace CLCGC
             string[] data = input.Split('\n');
             while(!isValid)
             {
-                Random random = new Random();
                 string theChoosenOne = data[random.Next(0, data.Length - 2)];
-                theChoosenOne = theChoosenOne.Substring(0, theChoosenOne.Length - 2);
+                theChoosenOne = theChoosenOne.Substring(0, theChoosenOne.Length - 1);
                 string[] props = theChoosenOne.Split(',');
-                Send("attackPlayer:" + private_key + ":" + props[2]);
+                string output = "attackPlayer:" + private_key.Substring(0, private_key.Length - 2) + ":" + props[2];
+                Send(output);
                 enemyLevel = Convert.ToInt32(props[1]);
                 isValid = true;
                 Console.WriteLine("Now attacking: " + props[0] + " Level: " + props[1]);
+                string output2 = "getOpponentsMD5:" + private_key.Substring(0, private_key.Length - 2);
+                Send(output2);
+                string MD5 = Receive();
+                opponent_key = MD5;
             }
         }
 
         public static void Send(string input)
         {
+            Thread.Sleep(10);
             byte[] buffer = new byte[input.Length];
             buffer = Encoding.ASCII.GetBytes(input);
             stream.Write(buffer, 0, input.Length);
+            stream.Flush();
         }
 
         public static string Receive()
         {
-            while (!stream.DataAvailable) { }
+            Thread.Sleep(10);
+            while (!stream.DataAvailable)
+            {
+            }
             byte[] buffer = new byte[4096];
             string output = "";
             stream.Read(buffer, 0, buffer.Length);
             output = Encoding.ASCII.GetString(buffer);
             output = output.Split((char)0)[0];
             return output;
+            stream.Flush();
         }
 
         public static void guessMD5(object threadNumber)
         {
+            string chars = "abcdefghijklmnopqrstuvwxyz";
             Console.WriteLine("Thread " + threadNumber + " Initialized");
             while(true)
             {
+                string guess = "";
                 if(!wait)
                 {
-
+                    while(guess != opponent_key)
+                    {
+                        string build = "";
+                        for(int i = 0; i < enemyLevel; i++)
+                        {
+                            build += chars[random.Next(0, 26)];
+                        }
+                        guess = GetMD5("a");
+                    }
+                    success = true;
                 }
                 else
                 {

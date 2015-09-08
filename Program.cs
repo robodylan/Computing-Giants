@@ -65,7 +65,7 @@ namespace Computing_Giants
             while (client.Connected)
             {
                 byte[] buffer = new byte[1024];
-                Thread.Sleep(1000 / 10);
+                Thread.Sleep(1000 / 1000);
                 if (stream.DataAvailable)
                 {
                     stream.Read(buffer, 0, 1024);
@@ -147,7 +147,7 @@ namespace Computing_Giants
                                 {
                                     if (entity.privateKey == input.Split(':')[1])
                                     {
-                                        foreach(Entity enemy  in entities)
+                                        foreach (Entity enemy  in entities)
                                         {
                                             if(enemy.publicKey == entity.attackingKey)
                                             {

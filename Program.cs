@@ -117,7 +117,7 @@ namespace Computing_Giants
 
                             }
                             break;
-                        case "guessKey": 
+                        case "guessKey":
                             foreach (Entity entity in entities)
                             {
                                 try
@@ -126,8 +126,9 @@ namespace Computing_Giants
                                     {
                                         foreach(Entity enemy in entities)
                                         {
-                                            if(enemy.publicKey == input.Split(':')[2] && enemy.secretKey == input.Split(':')[3] && enemy.level > 1)
+                                            if(enemy.secretKey == input.Split(':')[2])
                                             {
+                                                Console.WriteLine("Level 3");
                                                 enemy.level--;
                                                 thisEntity.level++;
                                             }

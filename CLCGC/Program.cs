@@ -23,7 +23,7 @@ namespace CLCGC
         static bool success = false;
         static int playerLevel;
         static int enemyLevel;
-        static int guess;
+        static string guessKey;
 
         public static void Main()
         {
@@ -87,7 +87,8 @@ namespace CLCGC
                 }
                 else
                 {
-                    Send("guessKey:" + private_key + ":" + guess);
+                    string output3 = "guessKey:" + private_key.Substring(0, private_key.Length - 2) + ":" + guessKey;
+                    Send(output3);
                     Console.WriteLine("Player decimated");
                     attackRandomPlayer();
                     success = false;
@@ -161,7 +162,8 @@ namespace CLCGC
                             build += chars[random.Next(0, 26)];
                         }
                         guess = GetMD5("a");
-                    }
+                        guessKey = build;
+                    }                     
                     success = true;
                 }
                 else

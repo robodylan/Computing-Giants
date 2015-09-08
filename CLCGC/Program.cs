@@ -21,7 +21,7 @@ namespace CLCGC
         static bool wait = true;
         static bool success = false;
         static int playerLevel;
-        static int enemyPlayer;
+        static int enemyLevel;
 
         public static void Main()
         {
@@ -99,7 +99,13 @@ namespace CLCGC
             while(!isValid)
             {
                 Random random = new Random();
-                string theChoosenOne = data[];
+                string theChoosenOne = data[random.Next(0, data.Length - 2)];
+                theChoosenOne = theChoosenOne.Substring(0, theChoosenOne.Length - 2);
+                string[] props = theChoosenOne.Split(',');
+                Send("attackPlayer:" + private_key + ":" + props[2]);
+                enemyLevel = Convert.ToInt32(props[1]);
+                isValid = true;
+                Console.WriteLine("Now attacking: " + props[0] + " Level: " + props[1]);
             }
         }
 

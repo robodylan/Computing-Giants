@@ -20,6 +20,8 @@ namespace CLCGC
         static string opponent_key;
         static bool wait = true;
         static bool success = false;
+        static int playerLevel;
+        static int enemyPlayer;
 
         public static void Main()
         {
@@ -70,17 +72,39 @@ namespace CLCGC
                 i++;
                 Thread.Sleep(100); 
             }
+            Thread.Sleep(100);
+            attackRandomPlayer();
             while(true)
             {
-
+                if(!success)
+                {
+                    Thread.Sleep(200);
+                }
+                else
+                {
+                    attackRandomPlayer();
+                    success = false;
+                }
             }
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
 
+        public static void attackRandomPlayer()
+        {
+            bool isValid = false;
+            Send("getPlayers:");
+            string input = Receive();
+            string[] data = input.Split('\n');
+            while(!isValid)
+            {
+                Random random = new Random();
+                string theChoosenOne = data[];
+            }
+        }
+
         public static void Send(string input)
         {
-            while (!stream.DataAvailable) { }
             byte[] buffer = new byte[input.Length];
             buffer = Encoding.ASCII.GetBytes(input);
             stream.Write(buffer, 0, input.Length);
@@ -89,11 +113,11 @@ namespace CLCGC
         public static string Receive()
         {
             while (!stream.DataAvailable) { }
-            byte[] buffer = new byte[1024];
+            byte[] buffer = new byte[4096];
             string output = "";
             stream.Read(buffer, 0, buffer.Length);
             output = Encoding.ASCII.GetString(buffer);
-            output = output.Split(null)[0];
+            output = output.Split((char)0)[0];
             return output;
         }
 

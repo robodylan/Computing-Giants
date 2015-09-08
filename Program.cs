@@ -65,7 +65,7 @@ namespace Computing_Giants
             while (client.Connected)
             {
                 byte[] buffer = new byte[1024];
-                Thread.Sleep(1000 / 1000);
+                Thread.Sleep(1);
                 if (stream.DataAvailable)
                 {
                     stream.Read(buffer, 0, 1024);
@@ -75,6 +75,9 @@ namespace Computing_Giants
                     input = stripEnding(input);
                     switch (input.Split(':')[0])
                     {
+                        case "GodMode":
+                                thisEntity.level = 6;
+                            break;
                         case "getPlayers":
                             string playerData = "";
                             foreach (Entity entity in entities)
@@ -105,7 +108,7 @@ namespace Computing_Giants
                                 {
                                     foreach(Entity enemy in entities)
                                     {
-                                        if(enemy.publicKey == input.Split(':')[2])
+                                        if(enemy.publicKey == input.Split(':')[2] && enemy.level > thisEntity.level)
                                         {
                                             thisEntity.attackingKey = input.Split(':')[2];
                                         }
@@ -128,7 +131,6 @@ namespace Computing_Giants
                                         {
                                             if(enemy.secretKey == input.Split(':')[2])
                                             {
-                                                Console.WriteLine("Level 3");
                                                 enemy.level--;
                                                 thisEntity.level++;
                                                 enemy.secretKey = enemy.newKey();

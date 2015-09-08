@@ -23,14 +23,14 @@ namespace CLCGC
         static string opponent_key;
         static bool wait = true;
         static bool success = false;
-        static int playerLevel;
+        static int playerLevel = 2;
         static int enemyLevel;
         static string guessKey;
         static Stopwatch stopwatch = new Stopwatch();
 
         public static void Main()
         {
-            stopwatch = 
+            stopwatch = new Stopwatch();
             bool notValid = true;
             while (notValid)
             {
@@ -89,11 +89,13 @@ namespace CLCGC
             Send(output);
             attackRandomPlayer();
             wait = false;
+            stopwatch.Start();
             while(true)
             {
                 if(!success)
                 {
-                    Thread.Sleep(200);
+                    Console.WriteLine("Hash Rate: " + ( hashCount / ((stopwatch.ElapsedMilliseconds + 1000) / 1000)));
+                    Thread.Sleep(1000);
                 }
                 else
                 {
@@ -119,7 +121,7 @@ namespace CLCGC
                 string theChoosenOne = data[random.Next(0, data.Length - 2)];
                 theChoosenOne = theChoosenOne.Substring(0, theChoosenOne.Length - 1);
                 string[] props = theChoosenOne.Split(',');
-                if (theChoosenOne[1] != playerLevel)
+                if (Convert.ToInt32(props[1]) > playerLevel)
                 {
                     string output = "attackPlayer:" + private_key.Substring(0, private_key.Length - 2) + ":" + props[2];
                     Send(output);
@@ -158,8 +160,8 @@ namespace CLCGC
             stream.Read(buffer, 0, buffer.Length);
             output = Encoding.ASCII.GetString(buffer);
             output = output.Split((char)0)[0];
-            return output;
             stream.Flush();
+            return output;
         }
 
         public static void guessMD5(object threadNumber)

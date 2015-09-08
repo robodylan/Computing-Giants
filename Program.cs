@@ -30,7 +30,7 @@ namespace Computing_Giants
         {
             string chars = "ABCDEFGHIJKLMPQRSTUVWXYZabcdefghijklmpqrstuvwxyz1234567890";
             string output = "";
-            for(int i = 0;i < 10;i++)
+            for(int i = 0;i < 100;i++)
             {
                 output += chars[rand.Next(0, chars.Length - 1)];
             }
@@ -162,7 +162,7 @@ namespace Computing_Giants
                                 }
                                 catch
                                 {
-
+                                    Console.WriteLine("Error");
                                 }
                             }
                             break;

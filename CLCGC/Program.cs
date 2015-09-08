@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Security.Cryptography;
 
 namespace CLCGC
 {
@@ -14,7 +16,10 @@ namespace CLCGC
         static TcpClient client;
         static NetworkStream stream;
         static string private_key;
-        static string filePath = Environment.SpecialFolder.DesktopDirectory + @"\CLCGC\player.dat";
+        static string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CLCGC\player.dat";
+        static string opponent_key;
+        static bool wait = true;
+        static bool success = false;
 
         public static void Main()
         {
@@ -48,13 +53,27 @@ namespace CLCGC
             }
             private_key = Receive().Split(':')[1];            
             Console.Clear();
-            Console.WriteLine("created");
-            Directory.CreateDirectory(Environment.SpecialFolder.DesktopDirectory + @"\CLCGC\");
-            Console.WriteLine(Environment.SpecialFolder.ApplicationData + @"\CLCGC\");
+            if (File.Exists(filePath)) Console.WriteLine("Loading settings...");
+            Thread.Sleep(10);
+            Console.WriteLine("Settings loaded successfully");
+            Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CLCGC\");
+            Console.WriteLine(filePath);
             File.WriteAllText(filePath, private_key);
             Console.WriteLine("Connection to server successful");
             Console.WriteLine(Environment.ProcessorCount + " Cores detected");
             Console.WriteLine("Trying to create " + Environment.ProcessorCount + " threads");
+            int i = 0;
+            while(i < Environment.ProcessorCount)
+            {
+                Thread thread = new Thread(guessMD5);
+                thread.Start(i);
+                i++;
+                Thread.Sleep(100); 
+            }
+            while(true)
+            {
+
+            }
             Console.WriteLine("Press any key to exit");
             Console.ReadKey();
         }
@@ -78,9 +97,28 @@ namespace CLCGC
             return output;
         }
 
-        public static void guessMD5(string MD5, int threadNumber)
+        public static void guessMD5(object threadNumber)
         {
-            Console.WriteLine("Thread #" + threadNumber + " Initialized");
+            Console.WriteLine("Thread " + threadNumber + " Initialized");
+            while(true)
+            {
+                if(!wait)
+                {
+
+                }
+                else
+                {
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        public static string GetMD5(string source)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                return BitConverter.ToString(md5.ComputeHash(Encoding.UTF8.GetBytes(source))).Replace("-", string.Empty).ToLower();
+            }
         }
     }
 }

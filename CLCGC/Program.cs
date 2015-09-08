@@ -8,11 +8,13 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace CLCGC
 {
     class Program
     {
+        static long hashCount;
         static Random random = new Random();
         static TcpClient client;
         static NetworkStream stream;
@@ -24,9 +26,11 @@ namespace CLCGC
         static int playerLevel;
         static int enemyLevel;
         static string guessKey;
+        static Stopwatch stopwatch = new Stopwatch();
 
         public static void Main()
         {
+            stopwatch = 
             bool notValid = true;
             while (notValid)
             {
@@ -57,11 +61,15 @@ namespace CLCGC
             }
             private_key = Receive().Split(':')[1];            
             Console.Clear();
-            if (File.Exists(filePath)) Console.WriteLine("Loading settings...");
             Thread.Sleep(10);
             Console.WriteLine("Settings loaded successfully");
             Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\CLCGC\");
             Console.WriteLine(filePath);
+            if (File.Exists(filePath))
+            {
+                Console.WriteLine("Loading settings...");
+                private_key = File.ReadAllText(filePath);
+            }
             File.WriteAllText(filePath, private_key);
             Console.WriteLine("Connection to server successful");
             Console.WriteLine(Environment.ProcessorCount + " Cores detected");
@@ -75,7 +83,9 @@ namespace CLCGC
                 Thread.Sleep(100); 
             }
             Thread.Sleep(100);
-            string output = "setUsername:" + private_key.Substring(0, private_key.Length - 2) + ":robodylan";
+            Console.Write("Enter a username: ");
+            string username = Console.ReadLine();
+            string output = "setUsername:" + private_key.Substring(0, private_key.Length - 2) + ":" + username;
             Send(output);
             attackRandomPlayer();
             wait = false;
@@ -109,15 +119,22 @@ namespace CLCGC
                 string theChoosenOne = data[random.Next(0, data.Length - 2)];
                 theChoosenOne = theChoosenOne.Substring(0, theChoosenOne.Length - 1);
                 string[] props = theChoosenOne.Split(',');
-                string output = "attackPlayer:" + private_key.Substring(0, private_key.Length - 2) + ":" + props[2];
-                Send(output);
-                enemyLevel = Convert.ToInt32(props[1]);
-                isValid = true;
-                Console.WriteLine("Now attacking: " + props[0] + " Level: " + props[1]);
-                string output2 = "getOpponentsMD5:" + private_key.Substring(0, private_key.Length - 2);
-                Send(output2);
-                string MD5 = Receive();
-                opponent_key = MD5;
+                if (theChoosenOne[1] != playerLevel)
+                {
+                    string output = "attackPlayer:" + private_key.Substring(0, private_key.Length - 2) + ":" + props[2];
+                    Send(output);
+                    enemyLevel = Convert.ToInt32(props[1]);
+                    isValid = true;
+                    Console.WriteLine("Now attacking: " + props[0] + " Level: " + props[1]);
+                    string output2 = "getOpponentsMD5:" + private_key.Substring(0, private_key.Length - 2);
+                    Send(output2);
+                    string MD5 = Receive();
+                    opponent_key = MD5;
+                }
+                else
+                {
+                    attackRandomPlayer();
+                }
             }
         }
 
@@ -154,6 +171,7 @@ namespace CLCGC
                 string guess = "";
                 if(!wait)
                 {
+                    hashCount++;
                     while(guess != opponent_key)
                     {
                         string build = "";
@@ -161,7 +179,7 @@ namespace CLCGC
                         {
                             build += chars[random.Next(0, 26)];
                         }
-                        guess = GetMD5("a");
+                        guess = GetMD5(build);
                         guessKey = build;
                     }                     
                     success = true;

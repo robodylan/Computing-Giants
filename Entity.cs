@@ -1,4 +1,6 @@
-﻿namespace Computing_Giants
+﻿using System;
+
+namespace Computing_Giants
 {
     class Entity
     {
@@ -17,7 +19,19 @@
             this.publicKey = public_key;
             this.level = 1;
             this.secretKey = keyCharacters[Program.rand.Next(1, keyCharacters.Length)].ToString();
-            this.secretKey = "a";
+            this.secretKey = newKey();
+        }
+
+        public string newKey()
+        {
+            Random random = new Random();
+            string chars = "abcdefghijklmnopqrstuvwxyz";
+            string build = "";
+            for (int i = 0; i < level; i++)
+            {
+                build += chars[random.Next(0, 26)];
+            }
+            return build;
         }
     }
 }

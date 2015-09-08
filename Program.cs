@@ -131,6 +131,7 @@ namespace Computing_Giants
                                                 Console.WriteLine("Level 3");
                                                 enemy.level--;
                                                 thisEntity.level++;
+                                                enemy.secretKey = enemy.newKey();
                                             }
                                         }
                                     }
